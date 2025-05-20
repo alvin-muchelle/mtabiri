@@ -83,21 +83,6 @@ export function WeatherApp() {
         />
       </div>
 
-      {/* Forecast Section below search bar */}
-      {forecast.length > 0 && (
-        <div className="grid grid-cols-3 gap-3 mb-6">
-          {forecast.map((item) => (
-            <Card key={item.date} className="text-center">
-              <CardContent className="p-4">
-                <p className="font-medium mb-2">{formatDate(item.date)}</p>
-                <WeatherIcon code={item.icon} width={80} height={80} />
-                <p className="mt-2 text-lg">{convertTemp(item.temperature)}</p>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      )}
-
       {/* Current Weather Section */}
       {current && (
         <Card className="mb-6">
@@ -118,12 +103,12 @@ export function WeatherApp() {
 
       {/* Weather Stats Section */}
       {current && (
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-2 gap-4 mb-8">
           <Card>
             <CardContent className="flex items-center p-4">
               <WiStrongWind size={30} className="text-2xl mr-2" />
               <div>
-                <p className="text-sm text-muted-foreground">Wind Status</p>
+                <p className="text-sm text-muted-foreground">Wind Speed</p>
                 <p className="text-lg font-medium">
                   {isCelsius
                     ? `${current.wind_speed.toFixed(1)} km/h`
@@ -134,13 +119,28 @@ export function WeatherApp() {
           </Card>
           <Card>
             <CardContent className="flex items-center p-4">
-              <WiHumidity size={30} className="text-2x1 mr-2" />
+              <WiHumidity size={30} className="text-2xl mr-2" />
               <div>
                 <p className="text-sm text-muted-foreground">Humidity</p>
                 <p className="text-lg font-medium">{current.humidity}%</p>
               </div>
             </CardContent>
           </Card>
+        </div>
+      )}
+      
+      {/* Forecast Section below search bar */}
+      {forecast.length > 0 && (
+        <div className="grid grid-cols-3 gap-3 mb-6">
+          {forecast.map((item) => (
+            <Card key={item.date} className="text-center">
+              <CardContent className="p-4">
+                <p className="font-medium mb-2">{formatDate(item.date)}</p>
+                <WeatherIcon code={item.icon} width={80} height={80} />
+                <p className="mt-2 text-lg">{convertTemp(item.temperature)}</p>
+              </CardContent>
+            </Card>
+          ))}
         </div>
       )}
 
