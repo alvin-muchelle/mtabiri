@@ -55,3 +55,24 @@ export async function fetchForecast(
   // If wrapped in `data`, adjust accordingly:
   return json.data ?? json;
 }
+
+export async function getCurrentWeatherByCoords(
+  lat: number,
+  lon: number,
+  units: 'metric' | 'imperial'
+) {
+  const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=${units}&appid=${KEY}`;
+  const res = await fetch(url);
+  if (!res.ok) throw new Error(`OpenWeather current fetch failed (${res.status})`);
+  return res.json();
+}
+
+export async function getCurrentWeatherByCity(
+  city: string,
+  units: 'metric' | 'imperial'
+) {
+  const url = `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(city)}&units=${units}&appid=${KEY}`;
+  const res = await fetch(url);
+  if (!res.ok) throw new Error(`OpenWeather city fetch failed (${res.status})`);
+  return res.json();
+}

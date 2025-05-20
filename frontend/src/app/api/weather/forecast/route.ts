@@ -1,0 +1,45 @@
+// /app/api/weather/forecast/route.ts
+import { NextResponse } from 'next/server';
+
+export async function GET(request: Request) {
+  const { searchParams } = new URL(request.url);
+  const city = searchParams.get('city');
+  const units = searchParams.get('units') ?? 'metric'; // 'metric' | 'imperial'
+
+  if (!city) {
+    return NextResponse.json({ error: 'Missing city parameter' }, { status: 400 });
+  }
+
+  try {
+    // Geocoding request
+    const geoRes = await fetch(
+      `${process.env.NEXT_PUBLIC_GEOCODE_URL}?q=${encodeURIComponent(city)}&limit=1&appid=${process.env.NEXT_PUBLIC_OPENWEATHER_KEY}`
+    );
+    const geoData = await geoRes.json();
+    if (!geoData[0]) {
+      return NextResponse.json({ error: 'City not found' }, { status: 404 });
+    }
+
+    const { lat, lon } = geoData[0];
+
+    // Fetch forecast from OpenWeather API
+    const forecastRes = await fetch(
+      `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=${units}&appid=${process.env.NEXT_PUBLIC_OPENWEATHER_KEY}`
+    );
+    const forecastData = await forecastRes.json();
+
+    const result = forecastData.list
+      .filter((entry: any) => entry.dt_txt.includes('12:00:00')) // daily at noon
+      .slice(0, 3)
+      .map((entry: any) => ({
+        date: entry.dt_txt,
+        temperature: entry.main.temp,
+        icon: entry.weather[0].icon,
+      }));
+
+    return NextResponse.json(result);
+  } catch (err) {
+    console.error(err);
+    return NextResponse.json({ error: 'Failed to fetch forecast' }, { status: 500 });
+  }
+}

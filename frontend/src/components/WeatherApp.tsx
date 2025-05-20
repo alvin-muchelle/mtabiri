@@ -37,19 +37,17 @@ export function WeatherApp() {
     setCity(searchCity);
 
     try {
-      const currentRes = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/weather/current?city=${searchCity}`
-      );
+      const units = isCelsius ? 'metric' : 'imperial';
+
+      const currentRes = await fetch(`/api/weather/current?city=${searchCity}&units=${units}`);
       if (!currentRes.ok) throw new Error('Failed to fetch current weather');
       const currentData = await currentRes.json();
-      setCurrent(currentData.data);
+      setCurrent(currentData);
 
-      const forecastRes = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/weather/forecast?city=${searchCity}`
-      );
+      const forecastRes = await fetch(`/api/weather/forecast?city=${searchCity}&units=${units}`);
       if (!forecastRes.ok) throw new Error('Failed to fetch forecast');
       const forecastData = await forecastRes.json();
-      setForecast(forecastData.data.slice(0, 3));
+      setForecast(forecastData);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An unknown error occurred');
       setCurrent(null);
