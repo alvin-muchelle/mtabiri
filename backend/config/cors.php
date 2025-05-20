@@ -21,7 +21,7 @@ return [
 
     // Which origins (domains) may make requests
     'allowed_origins' => [
-        'http://localhost:3000', 
+        '*', 
     ],
 
     // Which headers may be sent by the client
