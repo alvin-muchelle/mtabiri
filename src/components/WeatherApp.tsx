@@ -75,7 +75,7 @@ export function WeatherApp() {
   }
 
   return (
-    <div className="w-full px-4 sm:px-6 md:px-8 lg:px-10 max-w-screen-md mx-auto">
+    <div className="w-full sm:px-6 md:px-8 lg:px-10 max-w-screen-md mx-auto">
       {/* Search Bar & Toggle */}
       <div className="flex items-center justify-center mb-6">
         <SearchBar
