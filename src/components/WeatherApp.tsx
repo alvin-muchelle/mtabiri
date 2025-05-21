@@ -73,12 +73,46 @@ export function WeatherApp() {
     });
   };
 
+  function titleCase(str: string) {
+    return str
+      .toLowerCase()
+      .split(' ')
+      .map(s => s.charAt(0).toUpperCase() + s.slice(1))
+      .join(' ');
+  }
+
+  async function handleSearchByCoords(lat: number, lon: number) {
+    setError(null);
+    setIsLoading(true);
+    try {
+      const units = isCelsius ? 'metric' : 'imperial';
+
+      const currentRes = await fetch(`/api/weather/current?lat=${lat}&lon=${lon}&units=${units}`);
+      const currentData = await currentRes.json();
+      currentData.city = titleCase(currentData.city);
+      setCurrent(currentData);
+
+      const forecastRes = await fetch(`/api/weather/forecast?lat=${lat}&lon=${lon}&units=${units}`);
+      const forecastData = await forecastRes.json();
+      setForecast(forecastData);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'An unknown error occurred');
+      setCurrent(null);
+      setForecast([]);
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
   return (
     <div className="max-w-md mx-auto p-4">
       {/* Search Bar & Toggle */}
       <div className="flex items-center justify-center mb-6">
         <SearchBar
-          onSearch={handleSearch}
+          onSelect={({ name, lat, lon }) => {
+            setCity(titleCase(name));
+            handleSearchByCoords(lat, lon);
+          }}
           isCelsius={isCelsius}
           onToggleTemp={() => setIsCelsius(!isCelsius)}
           disabledToggle={!current}

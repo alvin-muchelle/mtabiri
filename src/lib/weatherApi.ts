@@ -12,11 +12,14 @@ export interface GeocodeResult {
 const GEO_URL = process.env.NEXT_PUBLIC_GEOCODE_URL!;
 const OPENWEATHER_KEY = process.env.NEXT_PUBLIC_OPENWEATHER!;
 
-// 🔁 Use relative URLs for internal API routes (Next.js server routes)
-const API_BASE = ''; // ← empty string lets `/api/...` resolve correctly on all environments
+// Use relative URLs for internal API routes (Next.js server routes)
+const API_BASE = ''; 
 
-export async function fetchGeocode(city: string): Promise<GeocodeResult[]> {
-  const url = `${GEO_URL}?q=${encodeURIComponent(city)}&limit=1&appid=${OPENWEATHER_KEY}`;
+export async function fetchGeocode(
+  city: string,
+  limit: number = 10
+): Promise<GeocodeResult[]> {
+  const url = `${GEO_URL}?q=${encodeURIComponent(city)}&limit=${limit}&appid=${OPENWEATHER_KEY}`;
   const res = await fetch(url);
   if (!res.ok) {
     throw new Error(`Geocode request failed (${res.status})`);
