@@ -1,3 +1,5 @@
+"use client"
+
 interface Props {
   wind: number;
   humidity: number;

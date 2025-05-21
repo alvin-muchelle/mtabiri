@@ -1,4 +1,7 @@
+'use client'
+
 import React from 'react';
+import Image from 'next/image';
 import type { ForecastItem } from '../types/weather';
 
 interface ForecastCardProps {
@@ -15,7 +18,7 @@ export const ForecastCard: React.FC<ForecastCardProps> = ({ data }) => {
   return (
     <div className="p-4 rounded-2xl shadow bg-white flex flex-col items-center">
       <p className="text-gray-600 mb-1">{date}</p>
-      <img
+      <Image
         src={`https://openweathermap.org/img/wn/${data.icon}.png`}
         alt=""
         className="w-12 h-12 mb-1"

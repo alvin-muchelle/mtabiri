@@ -23,12 +23,12 @@ interface ForecastItem {
 }
 
 export function WeatherApp() {
-  const [_city, setCity] = useState<string>('');
+  const [city, setCity] = useState<string>('');
   const [current, setCurrent] = useState<CurrentWeather | null>(null);
   const [forecast, setForecast] = useState<ForecastItem[]>([]);
   const [isCelsius, setIsCelsius] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
-  const [_isLoading, setIsLoading] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const handleSearch = async (searchCity: string) => {
     if (!searchCity) return;
@@ -39,12 +39,16 @@ export function WeatherApp() {
     try {
       const units = isCelsius ? 'metric' : 'imperial';
 
-      const currentRes = await fetch(`/api/weather/current?city=${searchCity}&units=${units}`);
+      const currentRes = await fetch(
+        `/api/weather/current?city=${searchCity}&units=${units}`
+      );
       if (!currentRes.ok) throw new Error('Failed to fetch current weather');
       const currentData = await currentRes.json();
       setCurrent(currentData);
 
-      const forecastRes = await fetch(`/api/weather/forecast?city=${searchCity}&units=${units}`);
+      const forecastRes = await fetch(
+        `/api/weather/forecast?city=${searchCity}&units=${units}`
+      );
       if (!forecastRes.ok) throw new Error('Failed to fetch forecast');
       const forecastData = await forecastRes.json();
       setForecast(forecastData);
@@ -71,7 +75,7 @@ export function WeatherApp() {
 
   return (
     <div className="max-w-md mx-auto p-4">
-      {/* Search Bar centered */}
+      {/* Search Bar & Toggle */}
       <div className="flex items-center justify-center mb-6">
         <SearchBar
           onSearch={handleSearch}
@@ -81,13 +85,27 @@ export function WeatherApp() {
         />
       </div>
 
+      {/* Loading Spinner */}
+      {isLoading && (
+        <div className="flex justify-center mb-4">
+          <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin" />
+        </div>
+  )}
+
+      {/* Display searched city */}
+      {current && !isLoading && (
+        <p className="text-center text-lg font-medium mb-2">Weather in {city}</p>
+      )}
+
       {/* Current Weather Section */}
-      {current && (
+      {current && !isLoading && (
         <Card className="mb-6">
           <CardContent className="p-4">
             <div className="flex flex-col items-start space-y-2 mb-4">
               <WeatherIcon code={current.icon} width={100} height={100} />
-              <div className="text-6xl font-bold">{convertTemp(current.temperature)}</div>
+              <div className="text-6xl font-bold">
+                {convertTemp(current.temperature)}
+              </div>
               <p className="capitalize text-muted-foreground">
                 {current.description}
               </p>
@@ -100,7 +118,7 @@ export function WeatherApp() {
       )}
 
       {/* Weather Stats Section */}
-      {current && (
+      {current && !isLoading && (
         <div className="grid grid-cols-2 gap-4 mb-8">
           <Card>
             <CardContent className="flex items-center p-4">
@@ -126,9 +144,9 @@ export function WeatherApp() {
           </Card>
         </div>
       )}
-      
-      {/* Forecast Section below search bar */}
-      {forecast.length > 0 && (
+
+      {/* Forecast Section */}
+      {forecast.length > 0 && !isLoading && (
         <div className="grid grid-cols-3 gap-3 mb-6">
           {forecast.map((item) => (
             <Card key={item.date} className="text-center">

@@ -1,4 +1,5 @@
 "use client";
+import Image from 'next/image';
 
 interface WeatherIconProps {
   code: string;
@@ -12,7 +13,7 @@ export function WeatherIcon({ code, width = 100, height = 100 }: WeatherIconProp
   const iconUrl = `https://openweathermap.org/img/wn/${code}@2x.png`;
 
   return (
-    <img 
+    <Image
       src={iconUrl} 
       alt="Weather icon" 
       width={width} 

@@ -1,6 +1,9 @@
+"use client"
+
 import React from 'react';
 import type { Weather } from '../types/weather';
 import { InfoList } from './InfoList';
+import Image from 'next/image';
 
 interface CurrentWeatherCardProps {
   data: Weather;
@@ -19,7 +22,7 @@ export const CurrentWeatherCard: React.FC<CurrentWeatherCardProps> = ({ data }) 
       <p className="text-gray-500 mb-4">{date}</p>
 
       <div className="flex items-center gap-4 mb-4">
-        <img
+        <Image
           src={`https://openweathermap.org/img/wn/${data.icon}@2x.png`}
           alt={data.description}
           className="w-20 h-20"

@@ -1,6 +1,13 @@
 // /app/api/weather/forecast/route.ts
 import { NextResponse } from 'next/server';
 
+interface OWMForecastEntry {
+  dt_txt: string;
+  dt: number;
+  main: { temp: number };
+  weather: { icon: string }[];
+}
+
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const city = searchParams.get('city');
@@ -27,11 +34,12 @@ export async function GET(request: Request) {
       `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=${units}&appid=${process.env.NEXT_PUBLIC_OPENWEATHER_KEY}`
     );
     const forecastData = await forecastRes.json();
+    const list: OWMForecastEntry[] = forecastData.list;
 
-    const result = forecastData.list
-      .filter((entry: any) => entry.dt_txt.includes('12:00:00')) // daily at noon
+    const result = list
+      .filter((entry) => entry.dt_txt.includes('12:00:00'))
       .slice(0, 3)
-      .map((entry: any) => ({
+      .map((entry) => ({
         date: entry.dt_txt,
         temperature: entry.main.temp,
         icon: entry.weather[0].icon,
