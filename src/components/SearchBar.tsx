@@ -74,14 +74,6 @@ export function SearchBar({
 
               {/* Combined button and toggle container */}
               <div className="flex items-center gap-2 w-full sm:w-auto">
-                {/* Mobile TempToggle (left side) */}
-                <div className="sm:hidden">
-                  <TempToggle
-                    isCelsius={isCelsius}
-                    onToggle={onToggleTemp}
-                    disabled={disabledToggle}
-                  />
-                </div>
 
                 {/* Search Button */}
                 <Button
@@ -96,6 +88,15 @@ export function SearchBar({
                 >
                   Search
                 </Button>
+
+                {/* Mobile TempToggle (left side) */}
+                <div className="sm:hidden">
+                  <TempToggle
+                    isCelsius={isCelsius}
+                    onToggle={onToggleTemp}
+                    disabled={disabledToggle}
+                  />
+                </div>
 
                 {/* Desktop TempToggle (right side) */}
                 <div className="hidden sm:block">
@@ -129,5 +130,5 @@ export function SearchBar({
         )}
       </div>
     </div>
-      );
+  );
 }
