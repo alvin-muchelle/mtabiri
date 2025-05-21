@@ -38,7 +38,7 @@ export async function GET(request: Request) {
 
     const result = list
       .filter((entry) => entry.dt_txt.includes('12:00:00'))
-      .slice(0, 3)
+      .slice(1, 4)
       .map((entry) => ({
         date: entry.dt_txt,
         temperature: entry.main.temp,
