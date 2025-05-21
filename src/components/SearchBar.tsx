@@ -45,7 +45,7 @@ export function SearchBar({
     }, 300);
     return () => clearTimeout(timer);
   }, [query]);
-  
+
   // Close dropdown on outside click
   useEffect(() => {
     function onClick(e: MouseEvent) {
@@ -59,30 +59,35 @@ export function SearchBar({
 
   return (
     <div ref={containerRef} className="relative w-full">
-      <div className="flex gap-2">
-        <Input
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          placeholder="Search the city name"
-          className="flex-1"
-          onFocus={() => results.length > 0 && setShowDropdown(true)}
-        />
-        <Button
-          onClick={() => {
-            const top = results[0];
-            onSelect({ name: top.name, lat: top.lat, lon: top.lon });
-            setShowDropdown(false);
-            setQuery(top.name);
-          }}
-          disabled={results.length === 0}
-        >
-          Search
-        </Button>
-        <TempToggle
-          isCelsius={isCelsius}
-          onToggle={onToggleTemp}
-          disabled={disabledToggle}
-        />
+      <div className="flex flex-col sm:flex-row gap-2 w-full">
+        <div className="relative w-full">
+          <div className="flex flex-col sm:flex-row gap-2 w-full">
+            <Input
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="Search the city name"
+              className="flex-1 text-sm sm:text-base"
+              onFocus={() => results.length > 0 && setShowDropdown(true)}
+            />
+            <Button
+              className="w-full sm:w-auto"
+              onClick={() => {
+                const top = results[0];
+                onSelect({ name: top.name, lat: top.lat, lon: top.lon });
+                setShowDropdown(false);
+                setQuery(top.name);
+              }}
+              disabled={results.length === 0}
+            >
+              Search
+            </Button>
+            <TempToggle
+              isCelsius={isCelsius}
+              onToggle={onToggleTemp}
+              disabled={disabledToggle}
+            />
+          </div>
+        </div>
       </div>
 
       {showDropdown && results.length > 0 && (

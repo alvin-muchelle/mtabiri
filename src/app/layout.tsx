@@ -11,6 +11,7 @@ import { ModeToggle } from "@/components/ModeToggle";
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning className="h-full">
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
       <body>
         <ThemeProvider
           attribute="class"                    

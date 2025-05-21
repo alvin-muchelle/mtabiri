@@ -75,7 +75,7 @@ export function WeatherApp() {
   }
 
   return (
-    <div className="w-full px-4 sm:px-6 md:px-8 max-w-screen-sm mx-auto">     
+    <div className="max-w-md mx-auto p-2 sm:p-4 w-full">
       {/* Search Bar & Toggle */}
       <div className="flex items-center justify-center mb-6">
         <SearchBar
@@ -97,7 +97,7 @@ export function WeatherApp() {
       )}
 
       <WelcomeBanner />
-
+      
       {/* Display searched city */}
       {current && !isLoading && (
         <p className="text-center text-lg font-medium mb-2">Weather in {city}</p>
@@ -106,7 +106,7 @@ export function WeatherApp() {
       {/* Current Weather Section */}
       {current && !isLoading && (
         <Card className="mb-6">
-          <CardContent className="p-4">
+          <CardContent className="p-2 sm:p-4">
             <div className="flex flex-col items-start space-y-2 mb-4">
               <WeatherIcon code={current.icon} width={100} height={100} />
               <div className="text-6xl font-bold">
