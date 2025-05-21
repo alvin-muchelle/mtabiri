@@ -5,8 +5,7 @@ interface OWMForecastEntry {
   dt_txt: string;
   dt: number;
   main: { temp: number };
-  
-  weather: { icon: string }[];
+    weather: { icon: string }[];
 }
 
 export async function GET(request: Request) {
