@@ -1,7 +1,14 @@
 // /app/api/weather/forecast/route.ts
 import { NextResponse } from 'next/server';
 import { fetchGeocode } from '@/lib/weatherApi';
-import { format, parseISO } from 'date-fns';
+import { format } from 'date-fns';
+
+interface OWMForecastEntry {
+  dt_txt: string;
+  dt: number;
+  main: { temp: number };
+  weather: { icon: string }[];
+}
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
@@ -38,9 +45,9 @@ export async function GET(request: Request) {
       throw new Error(`OpenWeather forecast fetch failed (${forecastRes.status})`);
     }
     const forecastData = await forecastRes.json();
-
-    // filter for 09:00:00 snapshots, next 3 days
-    const entries = forecastData.list as any[];
+    
+    // filter for 12:00:00 snapshots, next 3 days
+    const entries: OWMForecastEntry[] = forecastData.list;
     const tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);
     const tomorrowDate = format(tomorrow, 'yyyy-MM-dd');

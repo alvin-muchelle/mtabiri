@@ -58,12 +58,12 @@ export function SearchBar({
   }, []);
 
   return (
-    <div ref={containerRef} className="relative w-full max-w-sm">
+    <div ref={containerRef} className="relative w-full">
       <div className="flex gap-2">
         <Input
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          placeholder="Enter city name"
+          placeholder="Search the city name"
           className="flex-1"
           onFocus={() => results.length > 0 && setShowDropdown(true)}
         />

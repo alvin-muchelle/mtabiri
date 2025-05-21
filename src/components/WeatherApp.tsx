@@ -5,6 +5,7 @@ import { SearchBar } from './SearchBar';
 import { Card, CardContent } from '@/components/ui/card';
 import { WeatherIcon } from '@/components/WeatherIcon';
 import { WiStrongWind, WiHumidity } from 'react-icons/wi';
+import WelcomeBanner from './WelcomeBanner';
 
 interface CurrentWeather {
   city: string;
@@ -29,37 +30,6 @@ export function WeatherApp() {
   const [isCelsius, setIsCelsius] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-
-  const handleSearch = async (searchCity: string) => {
-    if (!searchCity) return;
-    setError(null);
-    setIsLoading(true);
-    setCity(searchCity);
-
-    try {
-      const units = isCelsius ? 'metric' : 'imperial';
-
-      const currentRes = await fetch(
-        `/api/weather/current?city=${searchCity}&units=${units}`
-      );
-      if (!currentRes.ok) throw new Error('Failed to fetch current weather');
-      const currentData = await currentRes.json();
-      setCurrent(currentData);
-
-      const forecastRes = await fetch(
-        `/api/weather/forecast?city=${searchCity}&units=${units}`
-      );
-      if (!forecastRes.ok) throw new Error('Failed to fetch forecast');
-      const forecastData = await forecastRes.json();
-      setForecast(forecastData);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'An unknown error occurred');
-      setCurrent(null);
-      setForecast([]);
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   const convertTemp = (temp: number) =>
     isCelsius ? `${Math.round(temp)}°C` : `${Math.round((temp * 9) / 5 + 32)}°F`;
@@ -105,7 +75,7 @@ export function WeatherApp() {
   }
 
   return (
-    <div className="max-w-md mx-auto p-4">
+    <div className="w-full px-4 sm:px-6 md:px-8 max-w-screen-sm mx-auto">     
       {/* Search Bar & Toggle */}
       <div className="flex items-center justify-center mb-6">
         <SearchBar
@@ -118,13 +88,15 @@ export function WeatherApp() {
           disabledToggle={!current}
         />
       </div>
-
+      
       {/* Loading Spinner */}
       {isLoading && (
         <div className="flex justify-center mb-4">
           <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin" />
         </div>
-  )}
+      )}
+
+      <WelcomeBanner />
 
       {/* Display searched city */}
       {current && !isLoading && (

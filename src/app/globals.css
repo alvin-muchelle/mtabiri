@@ -132,3 +132,18 @@
            min-h-screen;    /* fill screen */
   }
 }
+
+@keyframes slideFadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-slide-fade-in {
+  animation: slideFadeIn 0.8s ease-out forwards;
+}
