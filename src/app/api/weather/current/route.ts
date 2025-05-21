@@ -1,10 +1,9 @@
-// /app/api/weather/current/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 import { getCurrentWeatherByCity, getCurrentWeatherByCoords } from '@/lib/weatherApi';
 import { formatInTimeZone } from 'date-fns-tz';
 import NodeCache from 'node-cache';
 
-const cache = new NodeCache({ stdTTL: 600 }); // 10 minutes TTL
+const cache = new NodeCache({ stdTTL: 600 });
 
 export async function GET(req: NextRequest) {
   try {

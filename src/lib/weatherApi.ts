@@ -8,12 +8,15 @@ export interface GeocodeResult {
   state?: string;
 }
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL!;
+// These should stay as public (OpenWeatherMap URLs)
 const GEO_URL = process.env.NEXT_PUBLIC_GEOCODE_URL!;
-const KEY = process.env.NEXT_PUBLIC_OPENWEATHER_KEY!;
+const OPENWEATHER_KEY = process.env.NEXT_PUBLIC_OPENWEATHER!;
+
+// 🔁 Use relative URLs for internal API routes (Next.js server routes)
+const API_BASE = ''; // ← empty string lets `/api/...` resolve correctly on all environments
 
 export async function fetchGeocode(city: string): Promise<GeocodeResult[]> {
-  const url = `${GEO_URL}?q=${encodeURIComponent(city)}&limit=1&appid=${KEY}`;
+  const url = `${GEO_URL}?q=${encodeURIComponent(city)}&limit=1&appid=${OPENWEATHER_KEY}`;
   const res = await fetch(url);
   if (!res.ok) {
     throw new Error(`Geocode request failed (${res.status})`);
@@ -21,38 +24,25 @@ export async function fetchGeocode(city: string): Promise<GeocodeResult[]> {
   return res.json();
 }
 
-/**
- * Fetch current weather for given lat/lon & units.
- */
 export async function fetchCurrent(
   lat: number,
   lon: number,
   units: 'metric' | 'imperial'
 ): Promise<Weather> {
-  const res = await fetch(
-    `${API_BASE}/weather/current?lat=${lat}&lon=${lon}&units=${units}`
-  );
+  const res = await fetch(`${API_BASE}/api/weather/current?lat=${lat}&lon=${lon}&units=${units}`);
   if (!res.ok) throw new Error(`Current weather fetch failed (${res.status})`);
   const json = await res.json();
-  // If your API wraps data in `data`, e.g. { data: {...} }, adjust here:
   return json.data ?? json;
 }
 
-/**
- * Fetch 3-day forecast for given lat/lon & units.
- * Assumes your Laravel endpoint returns an array of ForecastItem.
- */
 export async function fetchForecast(
   lat: number,
   lon: number,
   units: 'metric' | 'imperial'
 ): Promise<ForecastItem[]> {
-  const res = await fetch(
-    `${API_BASE}/weather/forecast?lat=${lat}&lon=${lon}&units=${units}`
-  );
+  const res = await fetch(`${API_BASE}/api/weather/forecast?lat=${lat}&lon=${lon}&units=${units}`);
   if (!res.ok) throw new Error(`Forecast fetch failed (${res.status})`);
   const json = await res.json();
-  // If wrapped in `data`, adjust accordingly:
   return json.data ?? json;
 }
 
@@ -61,7 +51,7 @@ export async function getCurrentWeatherByCoords(
   lon: number,
   units: 'metric' | 'imperial'
 ) {
-  const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=${units}&appid=${KEY}`;
+  const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=${units}&appid=${OPENWEATHER_KEY}`;
   const res = await fetch(url);
   if (!res.ok) throw new Error(`OpenWeather current fetch failed (${res.status})`);
   return res.json();
@@ -71,7 +61,7 @@ export async function getCurrentWeatherByCity(
   city: string,
   units: 'metric' | 'imperial'
 ) {
-  const url = `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(city)}&units=${units}&appid=${KEY}`;
+  const url = `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(city)}&units=${units}&appid=${OPENWEATHER_KEY}`;
   const res = await fetch(url);
   if (!res.ok) throw new Error(`OpenWeather city fetch failed (${res.status})`);
   return res.json();

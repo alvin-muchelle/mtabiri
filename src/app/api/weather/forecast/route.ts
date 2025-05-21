@@ -20,7 +20,7 @@ export async function GET(request: Request) {
   try {
     // Geocoding request
     const geoRes = await fetch(
-      `${process.env.NEXT_PUBLIC_GEOCODE_URL}?q=${encodeURIComponent(city)}&limit=1&appid=${process.env.NEXT_PUBLIC_OPENWEATHER_KEY}`
+      `${process.env.NEXT_PUBLIC_GEOCODE_URL}?q=${encodeURIComponent(city)}&limit=1&appid=${process.env.NEXT_PUBLIC_OPENWEATHER}`
     );
     const geoData = await geoRes.json();
     if (!geoData[0]) {
@@ -31,7 +31,7 @@ export async function GET(request: Request) {
 
     // Fetch forecast from OpenWeather API
     const forecastRes = await fetch(
-      `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&units=${units}&appid=${process.env.NEXT_PUBLIC_OPENWEATHER_KEY}`
+      `${process.env.NEXT_PUBLIC_FORECAST}?lat=${lat}&lon=${lon}&units=${units}&appid=${process.env.NEXT_PUBLIC_OPENWEATHER}`
     );
     const forecastData = await forecastRes.json();
     const list: OWMForecastEntry[] = forecastData.list;
