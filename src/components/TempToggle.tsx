@@ -10,7 +10,7 @@ interface TempToggleProps {
 
 export function TempToggle({ isCelsius, onToggle, disabled }: TempToggleProps) {
   return (
-    <div className="inline-flex rounded-md border bg-background p-1 sm:p-2">
+    <div className="inline-flex rounded-md border bg-background p-1">
       <Button
         variant={isCelsius ? 'default' : 'ghost'}
         size="sm"
