@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import React from 'react';
 import Image from 'next/image';
@@ -16,14 +16,16 @@ export const ForecastCard: React.FC<ForecastCardProps> = ({ data }) => {
   });
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 mb-6">
+    <div className="w-full p-4 rounded-2xl shadow bg-white flex flex-col items-center">
       <p className="text-gray-600 mb-1">{date}</p>
       <Image
         src={`https://openweathermap.org/img/wn/${data.icon}.png`}
         alt=""
-        className="w-12 h-12 mb-1"
+        width={48}
+        height={48}
+        loading="lazy"
       />
-      <p className="text-xl font-medium">{Math.round(data.temperature)}°</p>
+      <p className="text-xl font-medium mt-2">{Math.round(data.temperature)}°</p>
     </div>
   );
 };

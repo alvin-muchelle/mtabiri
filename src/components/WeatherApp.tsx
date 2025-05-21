@@ -75,7 +75,7 @@ export function WeatherApp() {
   }
 
   return (
-    <div className="max-w-md mx-auto p-2 sm:p-4 w-full">
+    <div className="w-full px-4 sm:px-6 md:px-8 lg:px-10 max-w-screen-md mx-auto">
       {/* Search Bar & Toggle */}
       <div className="flex items-center justify-center mb-6">
         <SearchBar
@@ -126,7 +126,7 @@ export function WeatherApp() {
       {/* Weather Stats Section */}
       {current && !isLoading && (
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8 w-full">
-          <Card>
+          <Card className="w-full">
             <CardContent className="flex flex-col items-center justify-center p-4 space-y-2">
               <WiStrongWind size={30} className="text-2xl mr-2" />
               <div>
@@ -139,7 +139,7 @@ export function WeatherApp() {
               </div>
             </CardContent>
           </Card>
-          <Card>
+          <Card className="w-full">
             <CardContent className="flex flex-col items-center justify-center p-4 space-y-2">
               <WiHumidity size={30} className="text-2xl mr-2" />
               <div>
@@ -155,7 +155,7 @@ export function WeatherApp() {
       {forecast.length > 0 && !isLoading && (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 mb-6 w-full">
           {forecast.map((item) => (
-            <Card key={item.date} className="text-center">
+            <Card key={item.date} className="w-full text-center">
               <CardContent className="p-4 flex flex-col items-center justify-center">
                 <p className="font-medium mb-2">{formatDate(item.date)}</p>
                 <WeatherIcon code={item.icon} width={80} height={80} />
