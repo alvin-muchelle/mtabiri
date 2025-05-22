@@ -38,10 +38,10 @@ export const CurrentWeatherCard: React.FC<CurrentWeatherCardProps> = ({
             height={100}
           />
           <div className="text-center">
+            <p className="capitalize">{data.description}</p>
             <p className="text-5xl font-bold">
                {Math.round(temp)}°{isCelsius ? 'C' : 'F'}
             </p>
-            <p className="capitalize">{data.description}</p>
           </div>
         </div>
       </div>
