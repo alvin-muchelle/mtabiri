@@ -135,7 +135,7 @@ export function WeatherApp() {
           )}
 
           {/* Bottom: Forecast grid */}
-          {forecast.length > 0 && (
+          {forecast.length > 0 && !isLoading &&(
             <div className="grid grid-cols-2 sm:grid-cols-1 md:grid-cols-3 gap-3 ">
               {forecast.map((f) => (
                 <ForecastCard key={f.date} data={f} isCelsius={isCelsius} />

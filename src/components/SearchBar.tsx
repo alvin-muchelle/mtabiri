@@ -95,6 +95,7 @@ export function SearchBar({
               key={i}
               className="px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer text-gray-900 dark:text-gray-100"
               onClick={() => {
+                setResults([]);
                 onSelect({ name: loc.name, lat: loc.lat, lon: loc.lon });
                 setShowDropdown(false);
                 setQuery(loc.name);
