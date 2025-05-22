@@ -1,12 +1,10 @@
+import "./globals.css";
+import { ThemeProvider } from "@/components/ThemeProvider";
+
 export const metadata = {
   title: 'Mtabiri',
   description: 'Get the latest weather',
 }
-
-
-import "./globals.css";
-import { ThemeProvider } from "@/components/ThemeProvider";
-import { ModeToggle } from "@/components/ModeToggle";
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
