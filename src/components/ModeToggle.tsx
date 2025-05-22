@@ -7,7 +7,7 @@ import { SunIcon, MoonIcon } from "@heroicons/react/24/outline";
 export function ModeToggle() {
   const { theme, setTheme } = useTheme();
   return (
-    <div className="inline-flex rounded-lg border bg-background p-1">
+    <div className="mx-4 inline-flex rounded-lg border bg-background p-1">
       <Button
         variant={theme === "light" ? "default" : "ghost"}
         size="sm"

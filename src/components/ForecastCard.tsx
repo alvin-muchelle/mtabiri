@@ -16,7 +16,7 @@ export const ForecastCard: React.FC<ForecastCardProps> = ({ data }) => {
   });
 
   return (
-    <div className="w-full p-4 rounded-2xl shadow bg-white flex flex-col items-center">
+    <div className="p-4 rounded-2xl shadow bg-white flex flex-col items-center">
       <p className="text-gray-600 mb-1">{date}</p>
       <Image
         src={`https://openweathermap.org/img/wn/${data.icon}.png`}

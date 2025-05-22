@@ -58,77 +58,75 @@ export function SearchBar({
   }, []);
 
   return (
-    <div ref={containerRef} className="relative w-full">
-      <div ref={containerRef} className="relative w-full">
-        <div className="flex flex-col sm:flex-row gap-2 w-full">
-          <div className="relative w-full">
-            <div className="flex flex-col sm:flex-row gap-2 w-full">
-              {/* Input field */}
-              <Input
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                placeholder="Search the city name"
-                className="flex-1 text-sm sm:text-base"
-                onFocus={() => results.length > 0 && setShowDropdown(true)}
-              />
+    <div ref={containerRef} className="relative">
+      <div className="flex flex-col sm:flex-row gap-2">
+        <div className="relative">
+          <div className="flex flex-col sm:flex-row gap-2">
+            {/* Input field */}
+            <Input
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="Search the city name"
+              className="flex-1 text-sm sm:text-base"
+              onFocus={() => results.length > 0 && setShowDropdown(true)}
+            />
 
-              {/* Combined button and toggle container */}
-              <div className="flex items-center gap-2 w-full sm:w-auto">
+            {/* Combined button and toggle container */}
+            <div className="flex items-center gap-2 sm:w-auto">
 
-                {/* Search Button */}
-                <Button
-                  className="w-full sm:w-auto flex-1"
-                  onClick={() => {
-                    const top = results[0];
-                    onSelect({ name: top.name, lat: top.lat, lon: top.lon });
-                    setShowDropdown(false);
-                    setQuery(top.name);
-                  }}
-                  disabled={results.length === 0}
-                >
-                  Search
-                </Button>
+              {/* Search Button */}
+              <Button
+                className="sm:w-auto flex-1"
+                onClick={() => {
+                  const top = results[0];
+                  onSelect({ name: top.name, lat: top.lat, lon: top.lon });
+                  setShowDropdown(false);
+                  setQuery(top.name);
+                }}
+                disabled={results.length === 0}
+              >
+                Search
+              </Button>
 
-                {/* Mobile TempToggle (left side) */}
-                <div className="sm:hidden">
-                  <TempToggle
-                    isCelsius={isCelsius}
-                    onToggle={onToggleTemp}
-                    disabled={disabledToggle}
-                  />
-                </div>
+              {/* Mobile TempToggle (left side) */}
+              <div className="sm:hidden">
+                <TempToggle
+                  isCelsius={isCelsius}
+                  onToggle={onToggleTemp}
+                  disabled={disabledToggle}
+                />
+              </div>
 
-                {/* Desktop TempToggle (right side) */}
-                <div className="hidden sm:block">
-                  <TempToggle
-                    isCelsius={isCelsius}
-                    onToggle={onToggleTemp}
-                    disabled={disabledToggle}
-                  />
-                </div>
+              {/* Desktop TempToggle (right side) */}
+              <div className="hidden sm:block">
+                <TempToggle
+                  isCelsius={isCelsius}
+                  onToggle={onToggleTemp}
+                  disabled={disabledToggle}
+                />
               </div>
             </div>
           </div>
         </div>
-        {showDropdown && results.length > 0 && (
-          <ul className="absolute z-10 mt-1 w-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded shadow">
-            {results.map((loc, i) => (
-              <li
-                key={i}
-                className="px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer text-gray-900 dark:text-gray-100"
-                onClick={() => {
-                  onSelect({ name: loc.name, lat: loc.lat, lon: loc.lon });
-                  setShowDropdown(false);
-                  setQuery(loc.name);
-                }}
-              >
-                {loc.name}
-                {loc.state ? `, ${loc.state}` : ''}, {loc.country}
-              </li>
-            ))}
-          </ul>
-        )}
       </div>
+      {showDropdown && results.length > 0 && (
+        <ul className="absolute z-10 mt-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded shadow">
+          {results.map((loc, i) => (
+            <li
+              key={i}
+              className="px-3 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer text-gray-900 dark:text-gray-100"
+              onClick={() => {
+                onSelect({ name: loc.name, lat: loc.lat, lon: loc.lon });
+                setShowDropdown(false);
+                setQuery(loc.name);
+              }}
+            >
+              {loc.name}
+              {loc.state ? `, ${loc.state}` : ''}, {loc.country}
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 }

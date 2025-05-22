@@ -77,7 +77,7 @@ export function WeatherApp() {
 
   return (
     <div className="w-full sm:px-6 md:px-8 lg:px-10 max-w-screen-md mx-auto">
-      <div>
+      <div className="py-4">
         <ModeToggle />
       </div>
       {/* Search Bar & Toggle */}
@@ -109,7 +109,7 @@ export function WeatherApp() {
 
       {/* Current Weather Section */}
       {current && !isLoading && (
-        <Card className="mb-6 w-full">
+        <Card className="mb-6">
           <CardContent className="p-2 sm:p-4">
             <div className="flex flex-col items-start space-y-2 mb-4">
               <WeatherIcon code={current.icon} width={100} height={100} />
@@ -129,8 +129,8 @@ export function WeatherApp() {
 
       {/* Weather Stats Section */}
       {current && !isLoading && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8 w-full">
-          <Card className="w-full">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+          <Card className="">
             <CardContent className="flex flex-col items-center justify-center p-4 space-y-2">
               <WiStrongWind size={30} className="text-2xl mr-2" />
               <div>
@@ -143,7 +143,7 @@ export function WeatherApp() {
               </div>
             </CardContent>
           </Card>
-          <Card className="w-full">
+          <Card className="">
             <CardContent className="flex flex-col items-center justify-center p-4 space-y-2">
               <WiHumidity size={30} className="text-2xl mr-2" />
               <div>
@@ -157,9 +157,9 @@ export function WeatherApp() {
 
       {/* Forecast Section */}
       {forecast.length > 0 && !isLoading && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 mb-6 w-full">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 mb-6">
           {forecast.map((item) => (
-            <Card key={item.date} className="w-full text-center">
+            <Card key={item.date} className="text-center">
               <CardContent className="p-4 flex flex-col items-center justify-center">
                 <p className="font-medium mb-2">{formatDate(item.date)}</p>
                 <WeatherIcon code={item.icon} width={80} height={80} />
