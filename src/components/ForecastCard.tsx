@@ -6,9 +6,18 @@ import type { ForecastItem } from '../types/weather';
 
 interface ForecastCardProps {
   data: ForecastItem;
+  isCelsius: boolean;
 }
 
-export const ForecastCard: React.FC<ForecastCardProps> = ({ data }) => {
+export const ForecastCard: React.FC<ForecastCardProps> = ({
+  data,
+  isCelsius,
+}) => {
+
+  const temp = isCelsius
+    ? data.temperature
+    : (data.temperature * 9) / 5 + 32;
+
   const date = new Date(data.date).toLocaleDateString(undefined, {
     weekday: 'short',
     month: 'numeric',
@@ -16,16 +25,18 @@ export const ForecastCard: React.FC<ForecastCardProps> = ({ data }) => {
   });
 
   return (
-    <div className="p-4 rounded-2xl shadow bg-white flex flex-col items-center">
-      <p className="text-gray-600 mb-1">{date}</p>
+    <div className="p-4 rounded-2xl shadow bg-white dark:bg-gray-800 text-center dark:text-gray-100 flex flex-col items-center">
+      <p className="bg-white dark:bg-gray-800 text-center dark:text-gray-100 mb-1">{date}</p>
       <Image
         src={`https://openweathermap.org/img/wn/${data.icon}.png`}
         alt=""
-        width={48}
-        height={48}
+        width={80}
+        height={80}
         loading="lazy"
       />
-      <p className="text-xl font-medium mt-2">{Math.round(data.temperature)}°</p>
+      <p className="text-xl font-medium mt-2">
+        {Math.round(temp)}°{isCelsius ? 'C' : 'F'}
+      </p>
     </div>
   );
 };

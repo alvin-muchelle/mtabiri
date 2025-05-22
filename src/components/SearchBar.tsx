@@ -5,7 +5,6 @@ import { useState, useEffect, useRef } from 'react';
 import { fetchGeocode, GeocodeResult } from '@/lib/weatherApi';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { TempToggle } from './TempToggle';
 interface SearchBarProps {
   onSelect: (loc: { name: string; lat: number; lon: number }) => void;
   isCelsius: boolean;
@@ -42,7 +41,7 @@ export function SearchBar({
       } catch {
         setResults([]);
       }
-    }, 300);
+    }, 200);
     return () => clearTimeout(timer);
   }, [query]);
 
@@ -87,24 +86,7 @@ export function SearchBar({
               >
                 Search
               </Button>
-
-              {/* Mobile TempToggle (left side) */}
-              <div className="sm:hidden">
-                <TempToggle
-                  isCelsius={isCelsius}
-                  onToggle={onToggleTemp}
-                  disabled={disabledToggle}
-                />
-              </div>
-
-              {/* Desktop TempToggle (right side) */}
-              <div className="hidden sm:block">
-                <TempToggle
-                  isCelsius={isCelsius}
-                  onToggle={onToggleTemp}
-                  disabled={disabledToggle}
-                />
-              </div>
+              
             </div>
           </div>
         </div>

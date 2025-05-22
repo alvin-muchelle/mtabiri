@@ -3,10 +3,12 @@
 import { useState } from 'react';
 import { SearchBar } from './SearchBar';
 import { Card, CardContent } from '@/components/ui/card';
-import { WeatherIcon } from '@/components/WeatherIcon';
+import { CurrentWeatherCard } from './CurrentWeatherCard';
+import { ForecastCard } from './ForecastCard';
 import { WiStrongWind, WiHumidity } from 'react-icons/wi';
 import WelcomeBanner from './WelcomeBanner';
-import { ModeToggle } from "@/components/ModeToggle";
+import { ModeToggle } from "./ModeToggle";
+import { TempToggle } from './TempToggle';
 
 interface CurrentWeather {
   city: string;
@@ -31,9 +33,6 @@ export function WeatherApp() {
   const [isCelsius, setIsCelsius] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
-
-  const convertTemp = (temp: number) =>
-    isCelsius ? `${Math.round(temp)}°C` : `${Math.round((temp * 9) / 5 + 32)}°F`;
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -91,8 +90,15 @@ export function WeatherApp() {
           onToggleTemp={() => setIsCelsius(!isCelsius)}
           disabledToggle={!current}
         />
+        <div className='px-4'>
+          <TempToggle
+            isCelsius={isCelsius}
+            onToggle={() => setIsCelsius((c) => !c)}
+            disabled={!current}
+          />
+        </div>
       </div>
-      
+
       {/* Loading Spinner */}
       {isLoading && (
         <div className="flex justify-center mb-4">
@@ -101,74 +107,52 @@ export function WeatherApp() {
       )}
 
       <WelcomeBanner />
-      
-      {/* Display searched city */}
-      {current && !isLoading && (
-        <p className="text-center text-lg font-medium mb-2">Weather in {city}</p>
-      )}
 
-      {/* Current Weather Section */}
-      {current && !isLoading && (
-        <Card className="mb-6">
-          <CardContent className="p-2 sm:p-4">
-            <div className="flex flex-col items-start space-y-2 mb-4">
-              <WeatherIcon code={current.icon} width={100} height={100} />
-              <div className="text-6xl font-bold">
-                {convertTemp(current.temperature)}
+      {/* Current Weather Card */}
+      <div className="flex flex-col md:flex-row gap-4">
+        {current && !isLoading && (
+          <div className="w-full md:w-1/3">
+            <CurrentWeatherCard data={current} isCelsius={isCelsius} />
+          </div>
+        )}
+
+        <div className="w-full md:w-2/3 flex flex-col gap-4">
+          {/* Top: Stats side-by-side */}
+          {current && !isLoading && (
+            <div className="grid grid-cols-2 gap-4">
+              <div className="w-full">
+                <div className="p-4 rounded-lg shadow bg-white dark:bg-gray-800 text-center dark:text-gray-100">
+                  <WiStrongWind size={30} className="mx-auto mb-2" />
+                  <p className="text-sm">Wind Speed</p>
+                  <p className="text-lg font-semibold">
+                    {isCelsius
+                      ? `${current.wind_speed.toFixed(1)} km/h`
+                      : `${(current.wind_speed * 0.621371).toFixed(1)} mph`}
+                  </p>
+                </div>
               </div>
-              <p className="capitalize text-muted-foreground">
-                {current.description}
-              </p>
-              <p className="text-sm text-muted-foreground">
-                {formatDate(current.date)}, {current.city}
-              </p>
+              <div className="w-full">
+                <div className="p-4 rounded-lg shadow bg-white dark:bg-gray-800 text-center dark:text-gray-100">
+                  <WiHumidity size={30} className="mx-auto mb-2" />
+                  <p className="text-sm">Humidity</p>
+                  <p className="text-lg font-semibold">
+                    {current.humidity}%
+                  </p>
+                </div>
+              </div>
             </div>
-          </CardContent>
-        </Card>
-      )}
+          )}
 
-      {/* Weather Stats Section */}
-      {current && !isLoading && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
-          <Card className="">
-            <CardContent className="flex flex-col items-center justify-center p-4 space-y-2">
-              <WiStrongWind size={30} className="text-2xl mr-2" />
-              <div>
-                <p className="text-sm text-muted-foreground">Wind Speed</p>
-                <p className="text-lg font-medium">
-                  {isCelsius
-                    ? `${current.wind_speed.toFixed(1)} km/h`
-                    : `${(current.wind_speed * 0.621371).toFixed(1)} mph`}
-                </p>
-              </div>
-            </CardContent>
-          </Card>
-          <Card className="">
-            <CardContent className="flex flex-col items-center justify-center p-4 space-y-2">
-              <WiHumidity size={30} className="text-2xl mr-2" />
-              <div>
-                <p className="text-sm text-muted-foreground">Humidity</p>
-                <p className="text-lg font-medium">{current.humidity}%</p>
-              </div>
-            </CardContent>
-          </Card>
+          {/* Bottom: Forecast grid */}
+          {forecast.length > 0 && (
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 ">
+              {forecast.map((f) => (
+                <ForecastCard key={f.date} data={f} isCelsius={isCelsius} />
+              ))}
+            </div>
+          )}
         </div>
-      )}
-
-      {/* Forecast Section */}
-      {forecast.length > 0 && !isLoading && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 mb-6">
-          {forecast.map((item) => (
-            <Card key={item.date} className="text-center">
-              <CardContent className="p-4 flex flex-col items-center justify-center">
-                <p className="font-medium mb-2">{formatDate(item.date)}</p>
-                <WeatherIcon code={item.icon} width={80} height={80} />
-                <p className="mt-2 text-lg">{convertTemp(item.temperature)}</p>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
-      )}
+      </div>
 
       {/* Error message */}
       {error && (
