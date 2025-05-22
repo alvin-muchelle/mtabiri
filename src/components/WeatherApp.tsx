@@ -106,16 +106,17 @@ export function WeatherApp() {
 
       <WelcomeBanner />
 
-      {/* Current Weather Card */}
       <div className="flex flex-col md:flex-row gap-4">
-        {current && !isLoading && (
-          <div className="w-full md:w-1/3">
-            <CurrentWeatherCard data={current} isCelsius={isCelsius} />
-          </div>
-        )}
+        {/* Current Weather Card */}
+          {current && !isLoading && (
+            <div className="w-full md:w-1/3">
+              <CurrentWeatherCard data={current} isCelsius={isCelsius} />
+            </div>
+          )}
 
         {/* Stats and Forecast section */}
         <div className="w-full md:w-2/3 flex flex-col gap-4">
+
           {/* Top: Stats side-by-side */}
           {current && !isLoading && (
             <div className="grid grid-cols-2 gap-4">
@@ -144,7 +145,7 @@ export function WeatherApp() {
 
           {/* Bottom: Forecast grid */}
           {forecast.length > 0 && (
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 ">
+            <div className="grid grid-cols-2 sm:grid-cols-1 md:grid-cols-3 gap-3 ">
               {forecast.map((f) => (
                 <ForecastCard key={formatDate(f.date)} data={f} isCelsius={isCelsius} />
               ))}
