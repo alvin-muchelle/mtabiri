@@ -81,7 +81,7 @@ export function WeatherApp() {
       {/* Search Bar & Toggle */}
       <div className="flex items-center justify-center mb-6">
         <SearchBar
-          onSelect={({ name, lat, lon }) => {
+          onSelect={({ lat, lon }) => {
             handleSearchByCoords(lat, lon);
           }}
           isCelsius={isCelsius}
