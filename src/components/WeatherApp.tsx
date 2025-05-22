@@ -6,6 +6,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { WeatherIcon } from '@/components/WeatherIcon';
 import { WiStrongWind, WiHumidity } from 'react-icons/wi';
 import WelcomeBanner from './WelcomeBanner';
+import { ModeToggle } from "@/components/ModeToggle";
 
 interface CurrentWeather {
   city: string;
@@ -76,6 +77,9 @@ export function WeatherApp() {
 
   return (
     <div className="w-full sm:px-6 md:px-8 lg:px-10 max-w-screen-md mx-auto">
+      <div>
+        <ModeToggle />
+      </div>
       {/* Search Bar & Toggle */}
       <div className="flex items-center justify-center mb-6">
         <SearchBar
