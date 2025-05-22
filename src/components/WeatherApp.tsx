@@ -27,7 +27,6 @@ interface ForecastItem {
 }
 
 export function WeatherApp() {
-  const [city, setCity] = useState<string>('');
   const [current, setCurrent] = useState<CurrentWeather | null>(null);
   const [forecast, setForecast] = useState<ForecastItem[]>([]);
   const [isCelsius, setIsCelsius] = useState<boolean>(true);
@@ -37,7 +36,7 @@ export function WeatherApp() {
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return date.toLocaleDateString('en-US', {
-      weekday: 'short',
+      weekday: 'long',
       month: 'short',
       day: 'numeric',
     });
@@ -83,7 +82,6 @@ export function WeatherApp() {
       <div className="flex items-center justify-center mb-6">
         <SearchBar
           onSelect={({ name, lat, lon }) => {
-            setCity(titleCase(name));
             handleSearchByCoords(lat, lon);
           }}
           isCelsius={isCelsius}
@@ -116,6 +114,7 @@ export function WeatherApp() {
           </div>
         )}
 
+        {/* Stats and Forecast section */}
         <div className="w-full md:w-2/3 flex flex-col gap-4">
           {/* Top: Stats side-by-side */}
           {current && !isLoading && (
@@ -147,7 +146,7 @@ export function WeatherApp() {
           {forecast.length > 0 && (
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 ">
               {forecast.map((f) => (
-                <ForecastCard key={f.date} data={f} isCelsius={isCelsius} />
+                <ForecastCard key={formatDate(f.date)} data={f} isCelsius={isCelsius} />
               ))}
             </div>
           )}

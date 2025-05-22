@@ -14,9 +14,6 @@ interface SearchBarProps {
 
 export function SearchBar({
   onSelect,
-  isCelsius,
-  onToggleTemp,
-  disabledToggle,
 }: SearchBarProps) {
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<GeocodeResult[]>([]);
