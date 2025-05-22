@@ -33,15 +33,6 @@ export function WeatherApp() {
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const formatDate = (dateString: string) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', {
-      weekday: 'long',
-      month: 'short',
-      day: 'numeric',
-    });
-  };
-
   function titleCase(str: string) {
     return str
       .toLowerCase()
@@ -147,7 +138,7 @@ export function WeatherApp() {
           {forecast.length > 0 && (
             <div className="grid grid-cols-2 sm:grid-cols-1 md:grid-cols-3 gap-3 ">
               {forecast.map((f) => (
-                <ForecastCard key={formatDate(f.date)} data={f} isCelsius={isCelsius} />
+                <ForecastCard key={f.date} data={f} isCelsius={isCelsius} />
               ))}
             </div>
           )}

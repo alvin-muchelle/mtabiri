@@ -19,7 +19,7 @@ export const ForecastCard: React.FC<ForecastCardProps> = ({
     : (data.temperature * 9) / 5 + 32;
 
   const date = new Date(data.date).toLocaleDateString(undefined, {
-    weekday: 'short',
+    weekday: 'long',
     month: 'numeric',
     day: 'numeric',
   });
