@@ -66,7 +66,7 @@ export function WeatherApp() {
 
   return (
     <div className="w-full sm:px-6 md:px-8 lg:px-10 max-w-screen-md mx-auto">
-      <div className="py-4">
+      <div className="fixed top-5 left-4 z-40">
         <ModeToggle />
       </div>
       {/* Search Bar & Toggle */}
