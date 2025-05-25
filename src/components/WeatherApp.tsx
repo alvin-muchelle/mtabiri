@@ -69,88 +69,91 @@ export function WeatherApp() {
       <div className="fixed top-5 left-4 z-40">
         <ModeToggle />
       </div>
-      {/* Search Bar & Toggle */}
-      <div className="flex items-center justify-center mb-6">
-        <SearchBar
-          onSelect={({ lat, lon }) => {
-            handleSearchByCoords(lat, lon);
-          }}
-          isCelsius={isCelsius}
-          onToggleTemp={() => setIsCelsius(!isCelsius)}
-          disabledToggle={!current}
-        />
-        <div className='px-4'>
-          <TempToggle
+      <div className='mt-20'>
+        {/* Search Bar & Toggle */}
+        <div className="flex items-center justify-center mb-6">
+          <SearchBar
+            onSelect={({ lat, lon }) => {
+              handleSearchByCoords(lat, lon);
+            }}
             isCelsius={isCelsius}
-            onToggle={() => setIsCelsius((c) => !c)}
-            disabled={!current}
+            onToggleTemp={() => setIsCelsius(!isCelsius)}
+            disabledToggle={!current}
           />
+          <div className='px-4'>
+            <TempToggle
+              isCelsius={isCelsius}
+              onToggle={() => setIsCelsius((c) => !c)}
+              disabled={!current}
+            />
+          </div>
         </div>
-      </div>
 
-      {/* Loading Spinner */}
-      {isLoading && (
-        <div className="flex justify-center mb-4">
-          <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin" />
-        </div>
-      )}
+        {/* Loading Spinner */}
+        {isLoading && (
+          <div className="flex justify-center mb-4">
+            <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin" />
+          </div>
+        )}
 
-      <WelcomeBanner />
+        <WelcomeBanner />
 
-      <div className="flex flex-col md:flex-row gap-4">
-        {/* Current Weather Card */}
+        <div className="flex flex-col md:flex-row gap-4">
+          {/* Current Weather Card */}
           {current && !isLoading && (
             <div className="w-full md:w-1/3">
               <CurrentWeatherCard data={current} isCelsius={isCelsius} />
             </div>
           )}
 
-        {/* Stats and Forecast section */}
-        <div className="w-full md:w-2/3 flex flex-col gap-4">
+          {/* Stats and Forecast section */}
+          <div className="w-full md:w-2/3 flex flex-col gap-4">
 
-          {/* Top: Stats side-by-side */}
-          {current && !isLoading && (
-            <div className="grid grid-cols-2 gap-4">
-              <div className="w-full">
-                <div className="p-4 rounded-lg shadow bg-white dark:bg-gray-800 text-center dark:text-gray-100">
-                  <WiStrongWind size={30} className="mx-auto mb-2" />
-                  <p className="text-sm">Wind Speed</p>
-                  <p className="text-lg font-semibold">
-                    {isCelsius
-                      ? `${current.wind_speed.toFixed(1)} km/h`
-                      : `${(current.wind_speed * 0.621371).toFixed(1)} mph`}
-                  </p>
+            {/* Top: Stats side-by-side */}
+            {current && !isLoading && (
+              <div className="grid grid-cols-2 gap-4">
+                <div className="w-full">
+                  <div className="p-4 rounded-lg shadow bg-white dark:bg-gray-800 text-center dark:text-gray-100">
+                    <WiStrongWind size={30} className="mx-auto mb-2" />
+                    <p className="text-sm">Wind Speed</p>
+                    <p className="text-lg font-semibold">
+                      {isCelsius
+                        ? `${current.wind_speed.toFixed(1)} km/h`
+                        : `${(current.wind_speed * 0.621371).toFixed(1)} mph`}
+                    </p>
+                  </div>
+                </div>
+                <div className="w-full">
+                  <div className="p-4 rounded-lg shadow bg-white dark:bg-gray-800 text-center dark:text-gray-100">
+                    <WiHumidity size={30} className="mx-auto mb-2" />
+                    <p className="text-sm">Humidity</p>
+                    <p className="text-lg font-semibold">
+                      {current.humidity}%
+                    </p>
+                  </div>
                 </div>
               </div>
-              <div className="w-full">
-                <div className="p-4 rounded-lg shadow bg-white dark:bg-gray-800 text-center dark:text-gray-100">
-                  <WiHumidity size={30} className="mx-auto mb-2" />
-                  <p className="text-sm">Humidity</p>
-                  <p className="text-lg font-semibold">
-                    {current.humidity}%
-                  </p>
-                </div>
-              </div>
-            </div>
-          )}
+            )}
 
-          {/* Bottom: Forecast grid */}
-          {forecast.length > 0 && !isLoading &&(
-            <div className="grid grid-cols-2 sm:grid-cols-1 md:grid-cols-3 gap-3 ">
-              {forecast.map((f) => (
-                <ForecastCard key={f.date} data={f} isCelsius={isCelsius} />
-              ))}
-            </div>
-          )}
+            {/* Bottom: Forecast grid */}
+            {forecast.length > 0 && !isLoading && (
+              <div className="grid grid-cols-2 sm:grid-cols-1 md:grid-cols-3 gap-3 ">
+                {forecast.map((f) => (
+                  <ForecastCard key={f.date} data={f} isCelsius={isCelsius} />
+                ))}
+              </div>
+            )}
+          </div>
         </div>
-      </div>
 
-      {/* Error message */}
-      {error && (
-        <Card className="mt-6 border-destructive">
-          <CardContent className="p-4 text-destructive">{error}</CardContent>
-        </Card>
-      )}
+        {/* Error message */}
+        {error && (
+          <Card className="mt-6 border-destructive">
+            <CardContent className="p-4 text-destructive">{error}</CardContent>
+          </Card>
+        )}
+      </div>
     </div>
+
   );
 }
